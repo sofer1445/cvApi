@@ -53,7 +53,7 @@ public class FileReading {
         File file = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Automation Engineer.docx");
         File file1 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\DevOps Engineer.docx");
         File file2 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Front.docx");
-        File file3 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Full.docx");
+        File file3 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Full-stack.docx");
         File file4 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Software Developer.docx");
         File file5 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Software Tester.docx");
         File file6 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Web Developer.docx");

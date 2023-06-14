@@ -57,7 +57,7 @@ public class checkFile {
         Set<String> commonWords = new HashSet<>();
 
         for (String keyword : newKeyWords) {
-            String theKeyWord = deleteCounter(keyword.trim(), index).toLowerCase();
+            String theKeyWord = keyword.toLowerCase();
             Pattern pattern = Pattern.compile("\\b" + Pattern.quote(theKeyWord) + "\\b", Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(this.cvFile);
             if (matcher.find()) {
@@ -73,7 +73,7 @@ public class checkFile {
     }
 
     public String deleteCounter(String keyWord, int index) { // Removes the number from the word
-        if (keyWord.charAt(keyWord.length() - 1) == '.' || !(keyWord.charAt(keyWord.length() - 1) >= '1' && keyWord.charAt(keyWord.length() - 1) <= '9')) {
+        if (keyWord.charAt(keyWord.length() ) == '.' || !(keyWord.charAt(keyWord.length() - 1) >= '1' && keyWord.charAt(keyWord.length() - 1) <= '9')) {
             return keyWord;
         }
         String newKeyWord = "";
