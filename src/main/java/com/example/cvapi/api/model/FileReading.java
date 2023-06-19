@@ -13,17 +13,25 @@ public class FileReading {
     private  String[] jobDescription = new String[100];
     private File[] files;
     private int[] arrayOfCommonKeywords = new int[100];
-    private cvFile cvFile;
+    private File cvFile;
     private jobDetails[] jobDetailsArray = new jobDetails[100];
 
     public FileReading(){
-        this.cvFile = new cvFile();
+        this.cvFile = new cvFile().getCvFile();
         addFile();
         checksOtherJobs();
     }
     public String readCvFile() { // קוראת את הקובץ ומציגה את התוכן
         cvFile cvFile = new cvFile();
         return (displayTheFileContents(cvFile.getCvFile()));
+    }
+
+    public File getCvFile() {
+        return cvFile;
+    }
+
+    public void setCvFile(File cvFile) {
+        this.cvFile = cvFile;
     }
 
     public String[] getJobDescription() {
@@ -59,7 +67,7 @@ public class FileReading {
         File file6 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Web Developer.docx");
         File file7 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Backend Developer.docx");
 //        File cvFile = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\CV shoham sofer P.docx");
-        File[] files = {file, file1, file2, file3, file4, file5, file6, file7};
+        File[] files = {file, file1, file2, file3, file4, file5, file6,file7};
 //        this.cvFile = cvFile;
         this.files = files;
         System.out.println("Files added ");
@@ -113,7 +121,7 @@ public class FileReading {
         int[] counter = new int[this.files.length];
         for (int i = 0; i < this.files.length; i++) {
             Set<String> newSetCommonPlusMissing = new HashSet<>();
-            checkFile checkFile1 = new checkFile(displayTheFileContents(this.files[i]) , displayTheFileContents(this.cvFile.getCvFile()));
+            checkFile checkFile1 = new checkFile(displayTheFileContents(this.files[i]) , displayTheFileContents(this.cvFile));
             counter[i] = checkFile1.cvKeywordChecker(displayTheFileContents(this.files[i]), i);
             System.out.println("Job Name - " + deleteDocx(this.files[i].getName()) + "\n" + "Total keywords: " + counter[i]);
             this.jobDetailsArray[i].setMissingKeywords(checkFile1.showMissingKeyWords());

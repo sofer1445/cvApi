@@ -20,8 +20,9 @@ public class FileService {
             File file4 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Software Developer.docx");
             File file5 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Software Tester.docx");
             File file6 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Web Developer.docx");
+            File file7 = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\Backend Developer.docx");
     //        File cvFile = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\CV shoham sofer P.docx");
-            File[] files = {file, file1, file2, file3, file4, file5, file6};
+            File[] files = {file, file1, file2, file3, file4, file5, file6, file7};
     //        this.cvFile = cvFile;
             this.files = files;
             System.out.println("Files added ");
@@ -29,9 +30,6 @@ public class FileService {
 
         }
 
-    public FileReading getFileReading() {
-        return new FileReading();
-    }
 //    public File getFileReading(String fileName) {
 //        Optional<File> file = Optional.ofNullable(null);
 //        for (File file1 : files) {

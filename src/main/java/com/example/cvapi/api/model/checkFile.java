@@ -11,12 +11,20 @@ public class checkFile {
     private String cvFileContent;
     private Set<String> missingKeyWords = new HashSet<>();
     private Set<String> commonKeyWords = new HashSet<>();
-    private final String cvFile;
+    private  String cvFile;
 
     public checkFile(String cvFileContent , String cvFile) {
         this.cvFile = cvFile;
         this.cvFileContent = cvFileContent;
     }
+
+//    public String getCvFile() {
+//        return cvFile;
+//    }
+//
+//    public void setCvFile(String cvFile) {
+//        this.cvFile = cvFile;
+//    }
 
     public int getNumOfJob() {
         return numOfJob;
