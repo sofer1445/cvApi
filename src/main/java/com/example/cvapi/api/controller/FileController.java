@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.File;
 import java.io.IOException;
 
@@ -37,7 +38,7 @@ public class FileController {
         try {
             File file = convertMultipartFileToFile(multipartFile);
             String nameFile = file.getName();
-            file = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\" + nameFile);
+            file = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\קורות חיים\\" + nameFile);
             FileReading fileReading = new FileReading();
             fileReading.setCvFile(file);
             fileReading.checksOtherJobs();
