@@ -2,14 +2,14 @@ package com.example.cvapi.api.model;
 
 import java.util.Set;
 
-public class jobDetails  {
+public class JobDetails {
     private String jobName;
     private Set<String> keywords;
     private int sumOfCommonKeywords;
     private Set<String> commonKeywords;
     private Set<String> missingKeywords;
 
-    public jobDetails(String jobName, Set<String> keywords, Set<String> commonKeywords, Set<String> missingKeywords, int sumOfCommonKeywords) {
+    public JobDetails(String jobName, Set<String> keywords, Set<String> commonKeywords, Set<String> missingKeywords, int sumOfCommonKeywords) {
         this.jobName = jobName;
         this.keywords = keywords;
         this.commonKeywords = commonKeywords;

@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class checkFile {
+public class CheckFile {
     //    private String jobTitle;
     private int numOfJob;
     private String cvFileContent;
@@ -13,7 +13,7 @@ public class checkFile {
     private Set<String> commonKeyWords = new HashSet<>();
     private  String cvFile;
 
-    public checkFile(String cvFileContent , String cvFile) {
+    public CheckFile(String cvFileContent , String cvFile) {
         this.cvFile = cvFile;
         this.cvFileContent = cvFileContent;
     }

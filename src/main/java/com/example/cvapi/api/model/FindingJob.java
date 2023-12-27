@@ -20,8 +20,9 @@ public class FindingJob {
 
     public FindingJob(String nameOfJob) {
         searchOnDrushim(nameOfJob);
-//        saveJobDetails saveJobDetails = new saveJobDetails();
-//        saveJobDetails.saveNewJobDetailsToFile(this, nameOfJob);
+        SaveJobDetToDocx saveJobDetails = new SaveJobDetToDocx();
+        saveJobDetails.saveJobDetailsToFile(this.internetJobs, nameOfJob);
+
 
     }
 //    public findingJob(String nameOfJob) {
@@ -97,6 +98,8 @@ public class FindingJob {
             e.printStackTrace();
         }
         this.internetJobs[index] = new InternetJob(jobName, webSite, companyName, location, date, jobLink, jobDetArray);
+//        SaveJobDetToDocx saveJobDetails = new SaveJobDetToDocx();
+//        saveJobDetails.saveJobDetailsToFile(this.internetJobs[index]);
     }
 
 

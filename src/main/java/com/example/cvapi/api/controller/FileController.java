@@ -24,10 +24,6 @@ public class FileController {
     private FileReading fileReading = new FileReading();
 
 
-    public void setFileReading(FileReading fileReading) {
-        this.fileReading = fileReading;
-    }
-
     @Autowired
     public FileController(FileService fileService) {
         this.fileService = fileService;
@@ -36,6 +32,10 @@ public class FileController {
     @GetMapping(path = "/file", produces = MediaType.APPLICATION_JSON_VALUE)
     public FileReading getFileReading() {
         return this.fileReading;
+    }
+
+    public void setFileReading(FileReading fileReading) {
+        this.fileReading = fileReading;
     }
 
     @PostMapping(path = "/upload")
@@ -54,6 +54,7 @@ public class FileController {
         }
         return null;
     }
+
     //Write me a function that receives the job name from the user and then send to the findingJob class and create an object of it and send it to the user
     @GetMapping(path = "/search")
     public FindingJob searchJobGet(@RequestParam("jobName") String jobName) {
@@ -61,12 +62,13 @@ public class FileController {
         findingJob.searchOnDrushim(jobName);
         return findingJob;
     }
-       @PostMapping(path = "/search")
-        public FindingJob searchJobPost(@RequestParam("jobName") String jobName) {
-            FindingJob findingJob = new FindingJob(jobName);
-            findingJob.searchOnDrushim(jobName);
-            return findingJob;
-        }
+
+    @PostMapping(path = "/search")
+    public FindingJob searchJobPost(@RequestParam("jobName") String jobName) {
+        FindingJob findingJob = new FindingJob(jobName);
+        findingJob.searchOnDrushim(jobName);
+        return findingJob;
+    }
 
 
     private File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
