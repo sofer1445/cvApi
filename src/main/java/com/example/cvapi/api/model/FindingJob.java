@@ -52,7 +52,7 @@ public class FindingJob {
 
         try {
             Document doc = Jsoup.connect(Final.DRUSHIM_URL + nameOfJob + "&geolexid=537905&range=3&ssaen=1")
-                    .timeout(5000)
+                    .timeout(10 * 1000)
                     .userAgent("Mozilla")
                     .get();
 
