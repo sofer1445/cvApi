@@ -1,5 +1,6 @@
 package com.example.cvapi.api.controller;
 
+import com.example.cvapi.api.model.CheckFile;
 import com.example.cvapi.api.model.FileReading;
 import com.example.cvapi.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,17 @@ public class FileController {
         return null;
     }
 
-    //Write me a function that receives the job name from the user and then send to the findingJob class and create an object of it and send it to the user
+    @PostMapping(path = "/compatibilityTest")
+    public int[] CompatibilityTest(@RequestBody String jobDetailText) { //שולח את המשרה אבל לא עובד
+        System.out.println("jobDetailText: " + jobDetailText);
+        CheckFile checkFile = new CheckFile(jobDetailText, this.fileReading.displayTheFileContents(this.fileReading.getCvFile()));
+        System.out.println(this.fileReading.displayTheFileContents(this.fileReading.getCvFile()));
+        System.out.println(checkFile.cvKeywordChecker(jobDetailText, 1));
+        int missingKeyWords = checkFile.getMissingKeyWords().size();
+        int commonKeyWords = checkFile.cvKeywordChecker(jobDetailText, 1);
+        return new int[]{missingKeyWords, commonKeyWords};
+    }
+
     @GetMapping(path = "/search")
     public FindingJob searchJobGet(@RequestParam("jobName") String jobName) {
         FindingJob findingJob = new FindingJob(jobName);
