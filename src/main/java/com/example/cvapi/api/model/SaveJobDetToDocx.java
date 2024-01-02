@@ -11,10 +11,12 @@ public class SaveJobDetToDocx {
 
     public void saveJobDetailsToFile(InternetJob[] jobs , String fileName) {
         System.out.println("Saving job details to file");
+        if (jobs == null) {
+            throw new IllegalArgumentException("jobs array cannot be null");
+        }
         XWPFDocument document = new XWPFDocument();
-
         for (InternetJob job : jobs) {
-            if (job != null) {
+            if (job != null && job.getJobDetailText() != null) {
                 addParagraph(document, "Job Name: " + job.getJobName());
                 for (String detail : job.getJobDetailText()) {
                     addParagraph(document, detail);

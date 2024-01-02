@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class FindingJob {
-//    private final String[][] jobDetailsArray = new String[100][100];
+    //    private final String[][] jobDetailsArray = new String[100][100];
     private final InternetJob[] internetJobs = new InternetJob[100];
 
 
@@ -52,7 +52,7 @@ public class FindingJob {
 
         try {
             Document doc = Jsoup.connect(Final.DRUSHIM_URL + nameOfJob + "&geolexid=537905&range=3&ssaen=1")
-                    .timeout(10 * 1000)
+                    .timeout(15 * 1000)
                     .userAgent("Mozilla")
                     .get();
 
@@ -86,7 +86,7 @@ public class FindingJob {
         String[] jobDetArray = null;
         try {
 
-            Document jobDetailDoc = Jsoup.connect(fullUrl).get();
+            Document jobDetailDoc = Jsoup.connect(fullUrl).timeout(10000).get();
             Elements jobDetail2 = jobDetailDoc.getElementsByClass("layout job-details-wrap wrap jobDes px-4 ltr");
             if (jobDetail2.isEmpty()) {
                 jobDetail2 = jobDetailDoc.getElementsByClass("layout job-details-wrap wrap jobDes px-4");

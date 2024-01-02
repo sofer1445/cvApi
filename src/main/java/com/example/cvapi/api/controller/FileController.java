@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -42,11 +43,18 @@ public class FileController {
     @PostMapping(path = "/upload")
     public FileReading uploadFile(@RequestParam("file") MultipartFile multipartFile) {
         try {
-            File file = convertMultipartFileToFile(multipartFile);
-            String nameFile = file.getName();
-            file = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט\\קורות חיים\\" + nameFile);
+            // Save the uploaded file to a temporary file
+            File tempFile = File.createTempFile("upload-", multipartFile.getOriginalFilename());
+            multipartFile.transferTo(tempFile);
+
+            // Use the original file name for the FileReading object
+            File actualFile = new File(tempFile.getParentFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            if (!tempFile.renameTo(actualFile)) {
+                throw new IOException("Could not rename file to " + multipartFile.getOriginalFilename());
+            }
+
             FileReading fileReading = new FileReading();
-            fileReading.setCvFile(file);
+            fileReading.setCvFile(actualFile);
             fileReading.checksOtherJobs();
             this.fileReading = fileReading;
             return fileReading;
@@ -57,7 +65,7 @@ public class FileController {
     }
 
     @PostMapping(path = "/compatibilityTest")
-    public int[] CompatibilityTest(@RequestBody String jobDetailText) { //שולח את המשרה אבל לא עובד
+    public int[] CompatibilityTest(@RequestBody String jobDetailText) {
         System.out.println("jobDetailText: " + jobDetailText);
         CheckFile checkFile = new CheckFile(jobDetailText, this.fileReading.displayTheFileContents(this.fileReading.getCvFile()));
         System.out.println(this.fileReading.displayTheFileContents(this.fileReading.getCvFile()));
