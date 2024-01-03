@@ -43,15 +43,22 @@ public class FileController {
     @PostMapping(path = "/upload")
     public FileReading uploadFile(@RequestParam("file") MultipartFile multipartFile) {
         try {
+            System.out.println("Received file: " + multipartFile.getOriginalFilename());
+
             // Save the uploaded file to a temporary file
             File tempFile = File.createTempFile("upload-", multipartFile.getOriginalFilename());
             multipartFile.transferTo(tempFile);
+            System.out.println("Saved file to: " + tempFile.getAbsolutePath());
 
             // Use the original file name for the FileReading object
             File actualFile = new File(tempFile.getParentFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
+            if (actualFile.exists()) {
+                actualFile = new File(tempFile.getParentFile(), "new-" + multipartFile.getOriginalFilename());
+            }
             if (!tempFile.renameTo(actualFile)) {
                 throw new IOException("Could not rename file to " + multipartFile.getOriginalFilename());
             }
+            System.out.println("Renamed file to: " + actualFile.getAbsolutePath());
 
             FileReading fileReading = new FileReading();
             fileReading.setCvFile(actualFile);

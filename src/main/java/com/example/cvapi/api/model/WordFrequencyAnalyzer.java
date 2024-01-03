@@ -34,6 +34,10 @@ public class WordFrequencyAnalyzer {
 
     private Map<String, Integer> getWordFrequencies(File file) {
         Map<String, Integer> wordFrequencies = new HashMap<>();
+        Set<String> excludedWords = new HashSet<>(Arrays.asList("-", "and", "עם", "לא", "לפחות", "כמו", "כן", "a", "the",
+                "in", "of", "to", "for", "with", "on", "של",
+                "as", "at", "from", "by", "an", "that", "this", "is", "are", "be", "will", "or", "it", "its", "their",
+                "Name","Job","התפקיד", "משרה","על","תיאור"));
 
         try (FileInputStream fis = new FileInputStream(file);
              XWPFDocument document = new XWPFDocument(fis)) {
@@ -41,10 +45,12 @@ public class WordFrequencyAnalyzer {
             for (XWPFParagraph paragraph : document.getParagraphs()) {
                 for (XWPFRun run : paragraph.getRuns()) {
                     String text = run.getText(0);
-                    if (text != null) {
+                    if (text != null ) {
                         String[] words = text.split("\\s+");
                         for (String word : words) {
-                            wordFrequencies.put(word, wordFrequencies.getOrDefault(word, 0) + 1);
+                            if (!excludedWords.contains(word)) {
+                                wordFrequencies.put(word, wordFrequencies.getOrDefault(word, 0) + 1);
+                        }
                         }
                     }
                 }
