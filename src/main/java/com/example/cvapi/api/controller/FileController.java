@@ -52,8 +52,10 @@ public class FileController {
 
             // Use the original file name for the FileReading object
             File actualFile = new File(tempFile.getParentFile(), Objects.requireNonNull(multipartFile.getOriginalFilename()));
-            if (actualFile.exists()) {
-                actualFile = new File(tempFile.getParentFile(), "new-" + multipartFile.getOriginalFilename());
+            int counter = 0;
+            while (actualFile.exists()) {
+                counter++;
+                actualFile = new File(tempFile.getParentFile(), "new-" + counter + "-" + multipartFile.getOriginalFilename());
             }
             if (!tempFile.renameTo(actualFile)) {
                 throw new IOException("Could not rename file to " + multipartFile.getOriginalFilename());

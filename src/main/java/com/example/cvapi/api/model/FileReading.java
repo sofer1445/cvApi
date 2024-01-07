@@ -111,7 +111,7 @@ public class FileReading {
         return fileContentString;
     }
     public void checksOtherJobs() { // בודק אם יש משרה אחרת מתאימה
-        System.out.println("start checksOtherJobs");
+        System.out.println("start checksOtherJobs" + this.cvFile);
         int[] counter = new int[this.files.length];
         for (int i = 0; i < this.files.length; i++) {
             Set<String> newSetCommonPlusMissing = new HashSet<>();
