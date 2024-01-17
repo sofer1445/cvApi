@@ -3,6 +3,8 @@ package com.example.cvapi.api.model;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,13 +61,14 @@ public class FileReading {
 
     public void addFile() {
         File folder = new File("C:\\Users\\sofer\\OneDrive\\שולחן העבודה\\פרויקט");
-        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".docx"));
+        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".docx")
+                || name.toLowerCase().endsWith(".pdf"));
         if (files != null) {
             this.files = files;
             System.out.println("Files added ");
             toFillTheJobDescription();
         } else {
-            System.out.println("No .docx files found in the directory.");
+            System.out.println("No .docx or .pdf files found in the directory.");
         }
     }
 
@@ -90,21 +93,33 @@ public class FileReading {
         String fileName = file.getName();
 //        System.out.println("File name: " + fileName);
         StringBuilder fileContent = new StringBuilder();
+        if(fileName.endsWith(".pdf")) {
+            try (PDDocument document = PDDocument.load(file)) {
+                if (!document.isEncrypted()) {
+                    PDFTextStripper tStripper = new PDFTextStripper();
+                    String pdfFileInText = tStripper.getText(document);
+                    fileContent.append(pdfFileInText);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(fileName.endsWith(".docx")) {
+            try (FileInputStream fis = new FileInputStream(file);
+                 XWPFDocument document = new XWPFDocument(fis)) {
 
-        try (FileInputStream fis = new FileInputStream(file);
-             XWPFDocument document = new XWPFDocument(fis)) {
-
-            for (XWPFParagraph paragraph : document.getParagraphs()) {
-                for (XWPFRun run : paragraph.getRuns()) {
-                    String text = run.getText(0);
-                    if (text != null) {
-                        fileContent.append(text);
+                for (XWPFParagraph paragraph : document.getParagraphs()) {
+                    for (XWPFRun run : paragraph.getRuns()) {
+                        String text = run.getText(0);
+                        if (text != null) {
+                            fileContent.append(text);
+                        }
                     }
                 }
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         String fileContentString = fileContent.toString();
