@@ -1,5 +1,6 @@
 package com.example.cvapi.api.model;
 
+import com.example.cvapi.api.utils.DbUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class FindingJob {
     //    private final String[][] jobDetailsArray = new String[100][100];
     private final InternetJob[] internetJobs = new InternetJob[100];
+    public DbUtils dbUtils;
+
 
 
     public FindingJob(String nameOfJob) {
@@ -98,6 +101,9 @@ public class FindingJob {
             e.printStackTrace();
         }
         this.internetJobs[index] = new InternetJob(jobName, webSite, companyName, location, date, jobLink, jobDetArray);
+        this.dbUtils = new DbUtils();
+        dbUtils.insertJobToDb(this.internetJobs[index], index);
+
 //        SaveJobDetToDocx saveJobDetails = new SaveJobDetToDocx();
 //        saveJobDetails.saveJobDetailsToFile(this.internetJobs[index]);
     }

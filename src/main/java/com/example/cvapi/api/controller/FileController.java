@@ -2,6 +2,7 @@ package com.example.cvapi.api.controller;
 
 import com.example.cvapi.api.model.CheckFile;
 import com.example.cvapi.api.model.FileReading;
+import com.example.cvapi.api.utils.DbUtils;
 import com.example.cvapi.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +25,8 @@ public class FileController {
 
     private FileService fileService;
     private FileReading fileReading = new FileReading();
+    public DbUtils dbUtils;
+
 
 
     @Autowired
