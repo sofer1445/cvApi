@@ -12,6 +12,7 @@ import java.sql.*;
 @Component
 public class DbUtils {
     private Connection connection;
+    private String tableName;
 
     @PostConstruct
     public void init () {
@@ -38,7 +39,7 @@ public class DbUtils {
             return;
         }
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO jobs (jobName, webSite," +
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + this.tableName + " (jobName, webSite," +
                     " companyName, location," +
                     " date, jobLink," +
                     " jobDetails)" +
@@ -62,7 +63,8 @@ public class DbUtils {
     public boolean CheckJobLinkAvailableInDb(String jonLink){
         boolean available = false;
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT jobLink FROM jobs WHERE jobLink = ?");
+            String tableName = this.tableName;
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT jobLink FROM " + tableName + " WHERE jobLink = ?");
             preparedStatement.setString(1, jonLink);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
@@ -77,5 +79,36 @@ public class DbUtils {
 
         return available;
 
+    }
+
+    public void createTableInDb(String tableName){
+        this.init();
+        tableName = tableName.replace(" ", "_"); // replace spaces with underscores
+        System.out.println("Creating table in DB: " + tableName);
+        this.tableName = tableName;
+        try{
+            if (connection != null) {
+                DatabaseMetaData dbm = connection.getMetaData();
+                ResultSet tables = dbm.getTables(null, null, tableName, null);
+                if (!tables.next()) {
+                    // Table does not exist
+                    PreparedStatement preparedStatement = connection.prepareStatement("CREATE TABLE " + tableName + " (id INT PRIMARY KEY AUTO_INCREMENT," +
+                            " jobName TEXT," +
+                            " webSite TEXT," +
+                            " companyName TEXT," +
+                            " location TEXT," +
+                            " date TEXT," +
+                            " jobLink TEXT," +
+                            " jobDetails MEDIUMTEXT)"); // Change TEXT to MEDIUMTEXT
+                    preparedStatement.executeUpdate();
+                } else {
+                    System.out.println("Table " + tableName + " already exists");
+                }
+            } else {
+                System.out.println("Connection is null");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

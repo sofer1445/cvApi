@@ -55,7 +55,7 @@ public class FindingJob {
 
         try {
             Document doc = Jsoup.connect(Final.DRUSHIM_URL + nameOfJob + "&geolexid=537905&range=3&ssaen=1")
-                    .timeout(15 * 1000)
+                    .timeout(30 * 1000)
                     .userAgent("Mozilla")
                     .get();
 
@@ -64,7 +64,7 @@ public class FindingJob {
             ExecutorService executor = Executors.newFixedThreadPool(10);
 
             for (Element job : jobs) {
-                executor.submit(() -> jobDetails(job, jobs.indexOf(job)));
+                executor.submit(() -> jobDetails(job, jobs.indexOf(job),nameOfJob));
             }
 
             executor.shutdown();
@@ -75,7 +75,7 @@ public class FindingJob {
         }
     }
 
-    public void jobDetails(Element job, int index) {
+    public void jobDetails(Element job, int index,String nameOfJob) {
         String jobName = job.select(".job-url.primary--text.font-weight-medium.primary--text").text();
         Elements company = job.select(".display-22.view-on-submit.disabledLink.pb-1.mb-0");
         String webSite = company.select("[href]").attr("href");
@@ -102,6 +102,7 @@ public class FindingJob {
         }
         this.internetJobs[index] = new InternetJob(jobName, webSite, companyName, location, date, jobLink, jobDetArray);
         this.dbUtils = new DbUtils();
+        dbUtils.createTableInDb(nameOfJob);
         dbUtils.insertJobToDb(this.internetJobs[index], index);
 
 //        SaveJobDetToDocx saveJobDetails = new SaveJobDetToDocx();
