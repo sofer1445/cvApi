@@ -12,5 +12,7 @@ public class Final {
     public static final String DRUSHIM_URL = "https://www.drushim.co.il/jobs/area/1/?searchterm=";
     public static final String JOB_DETAILS_CLASS = "layout job-details-wrap wrap jobDes px-4 ltr";
 
+    public static final int THRESHOLD = 10;
+    public static final int EXIT_CHOICE = 3;
 
 }
