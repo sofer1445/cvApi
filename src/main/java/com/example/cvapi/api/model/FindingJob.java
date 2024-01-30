@@ -103,7 +103,7 @@ public class FindingJob {
         this.internetJobs[index] = new InternetJob(jobName, webSite, companyName, location, date, jobLink, jobDetArray);
         this.dbUtils = new DbUtils();
         dbUtils.createTableInDb(nameOfJob);
-        dbUtils.insertJobToDb(this.internetJobs[index], index);
+        dbUtils.insertJobToDb(this.internetJobs[index], index,nameOfJob);
 
 //        SaveJobDetToDocx saveJobDetails = new SaveJobDetToDocx();
 //        saveJobDetails.saveJobDetailsToFile(this.internetJobs[index]);

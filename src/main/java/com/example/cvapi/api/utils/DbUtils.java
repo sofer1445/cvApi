@@ -8,6 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class DbUtils {
@@ -30,11 +34,11 @@ public class DbUtils {
         }
     }
 
-    public void insertJobToDb(InternetJob internetJob , int index){
+    public void insertJobToDb(InternetJob internetJob , int index, String tableName){
         System.out.println("Inserting job to DB");
         boolean success = false;
         init();
-        if(CheckJobLinkAvailableInDb(internetJob.getWebSite() + internetJob.getJobLink())){
+        if(CheckJobLinkAvailableInDb(internetJob.getWebSite() + internetJob.getJobLink() , tableName)){
             System.out.println("Job already in DB");
             return;
         }
@@ -60,10 +64,10 @@ public class DbUtils {
         System.out.println(success);
     }
 
-    public boolean CheckJobLinkAvailableInDb(String jonLink){
+    public boolean CheckJobLinkAvailableInDb(String jonLink, String tableName){
         boolean available = false;
         try{
-            String tableName = this.tableName;
+//            String tableName = this.tableName;
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT jobLink FROM " + tableName + " WHERE jobLink = ?");
             preparedStatement.setString(1, jonLink);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -110,5 +114,33 @@ public class DbUtils {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<InternetJob> getSortedDataFromTable(String tableName) {
+        System.out.println("Getting data from DB");
+        List<InternetJob> resultList = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName + " ORDER BY id");
+            if(resultSet == null){
+                System.out.println("No data in DB");
+                return null;
+            }
+            while (resultSet.next()) {
+                String jobName = resultSet.getString("jobName");
+                String webSite = resultSet.getString("webSite");
+                String companyName = resultSet.getString("companyName");
+                String location = resultSet.getString("location");
+                String date = resultSet.getString("date");
+                String jobLink = resultSet.getString("jobLink");
+                String[] jobDetailText = (String[]) resultSet.getArray("jobDetailText").getArray();
+
+                InternetJob job = new InternetJob(jobName, webSite, companyName, location, date, jobLink, jobDetailText);
+                resultList.add(job);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultList;
     }
 }

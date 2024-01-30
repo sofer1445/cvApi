@@ -2,6 +2,7 @@ package com.example.cvapi.api.controller;
 
 import com.example.cvapi.api.model.CheckFile;
 import com.example.cvapi.api.model.FileReading;
+import com.example.cvapi.api.model.InternetJob;
 import com.example.cvapi.api.utils.DbUtils;
 import com.example.cvapi.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -99,6 +101,14 @@ public class FileController {
         FindingJob findingJob = new FindingJob(jobName);
         findingJob.searchOnDrushim(jobName);
         return findingJob;
+    }
+
+    @PostMapping(path = "/takeFromDB")
+    public List<InternetJob> takeFromDB(@RequestParam("jobName") String jobName) {
+        dbUtils = new DbUtils();
+        dbUtils.init();
+        return dbUtils.getSortedDataFromTable(jobName);
+
     }
 
 
